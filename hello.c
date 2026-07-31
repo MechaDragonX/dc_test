@@ -1,6 +1,9 @@
 #include <kos.h>
 #include <SDL/SDL.h>
 
+// Use default init settings
+KOS_INIT_FLAGS(INIT_DEFAULT);
+
 int main(int arc, char *argv[])
 {
     // Initialize SDL video and joystick and quit if none fond
@@ -8,6 +11,9 @@ int main(int arc, char *argv[])
     {
         return -1;
     }
+
+    // Prevent the cursor from showing up by default
+    SDL_ShowCursor(SDL_DISABLE);
     // Set up standard resolution and 16bit color
     SDL_Surface *screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE);
     if(!screen)
@@ -28,7 +34,6 @@ int main(int arc, char *argv[])
         SDL_Quit();
         return -1;
     }
-
 
     // Setup screen
     SDL_LockSurface(screen);
