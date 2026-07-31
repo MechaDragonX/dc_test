@@ -1,3 +1,4 @@
+#include <dc/biosfont.h>
 #include <kos.h>
 #include <SDL/SDL.h>
 
@@ -11,7 +12,6 @@ int main(int arc, char *argv[])
     {
         return -1;
     }
-
     // Prevent the cursor from showing up by default
     SDL_ShowCursor(SDL_DISABLE);
     // Set up standard resolution and 16bit color
@@ -21,7 +21,6 @@ int main(int arc, char *argv[])
         SDL_Quit();
         return -1;
     }
-
     // Setup controllers
     // Use P1 if exists, and quit if none
     SDL_Joystick *controller = NULL;
@@ -35,15 +34,25 @@ int main(int arc, char *argv[])
         return -1;
     }
 
+
     // Setup screen
     SDL_LockSurface(screen);
+    
+    // Set encoding to EUC-JP
+    bfont_set_encoding(BFONT_CODE_EUC);
     /*
-        Go to top left corner in 16-bit mode,
+        Set o to top left corner,
         Go down 100, right 50,
         Define writing 640 px wide,
+        Black background, white foreground,
+        16bits per pixel,
         Opaque text
     */
-    bfont_draw_str((uint16_t *)screen->pixels + (100 * 640 + 50), 640, 1, "Hello world!\nPress A to quit...");
+    bfont_draw_str_ex((uint16_t *)screen->pixels + (100 * 640 + 50), 640, 
+                        0xFFFF, 0x0000, 16, 1,
+                        "ハロー・ワールド！\nHello world!\n\n終了・Quit: A Button");
+
+    // Update screen
     SDL_UnlockSurface(screen);
     SDL_Flip(screen);
 
