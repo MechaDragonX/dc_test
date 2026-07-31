@@ -1,5 +1,5 @@
 #
-# Basic KallistiOS skeleton / test program
+# Original KallistiOS skeleton / test program makefile
 # Copyright (C) 2001-2004 Megan Potter
 # Copyright (C) 2024 Falco Girgis
 #   
@@ -8,14 +8,14 @@
 TARGET = hello.elf
 
 # List all of your C or C++ files here, but change the extension to ".o"
-OBJS = hello.o
+OBJS = hello.o romdisk.o
 
 # Optional path to a directory of resources to bundle within your ELF binary.
 # Its contents are accessible via the "/rd/" virtual directory at runtime.
-#KOS_ROMDISK_DIR = romdisk
+KOS_ROMDISK_DIR = assets
 
 # Local libs
-KOS_LOCAL_LIBS = -lSDL -lGL
+LIBS = -lSDL_ttf -lfreetype -lpng -lz -lbz2 -lSDL -lGL
 
 # Main rule which forces our ELF binary to be built
 all: rm-elf $(TARGET)
@@ -33,9 +33,8 @@ rm-elf:
 
 # Invokes the compiler to build the target from our object files
 $(TARGET): $(OBJS)
-	kos-cc -o $(TARGET) $(OBJS) $(KOS_LOCAL_LIBS)
+	kos-cc -o $(TARGET) $(OBJS) $(LIBS)
 
-# Attempts to run the target using the configured loader application
 run: $(TARGET)
 	$(KOS_LOADER) $(TARGET)
 
