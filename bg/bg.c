@@ -1,11 +1,13 @@
+#include <adx/adx.h>
+#include <dc/sound/sound.h>
 #include <kos.h>
-#include <plx/font.h>
+#include <adx/snddrv.h> 
 #include <stdint.h>
 
 // Use default init settings
 KOS_INIT_FLAGS(INIT_DEFAULT);
 
-int main(int arc, char *argv[])
+int main(int arc, char* argv[])
 {
     /*
         Setup custom image renderng settings
@@ -28,6 +30,19 @@ int main(int arc, char *argv[])
     {
         arch_menu();
         return -1;
+    }
+
+    // Attempt to load music file as compressed ADX (natively supported)
+    if(adx_dec("/rd/bgm.adx", 1) < 1)
+    {
+        arch_menu();
+        return -1;
+    }
+
+    // Wait for the sound driver to start up
+    while(snddrv.drv_status == SNDDRV_STATUS_NULL)
+    {
+        thd_pass();
     }
 
     // Establish variables for the background image
@@ -94,6 +109,12 @@ int main(int arc, char *argv[])
     int running = 1;
     while(running)
     {
+        // If the sound driver fails or something break
+        if(snddrv.drv_status == SNDDRV_STATUS_NULL)
+        {
+            running = 0;
+        }
+
         // Check if the controller exists currently and if the A button is pressed to quit
         cont_state_t* state = (cont_state_t*)maple_dev_status(controller);
         if(state && (state->buttons & CONT_A))

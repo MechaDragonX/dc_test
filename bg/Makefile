@@ -15,7 +15,7 @@ OBJS = bg.o romdisk.o
 KOS_ROMDISK_DIR = romdisk
 
 # Local libs
-LIBS =
+LIBS = -lADX
 
 # Main rule which forces our ELF binary to be built
 all: rm-elf $(TARGET)
