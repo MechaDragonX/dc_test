@@ -12,10 +12,10 @@ OBJS = bg.o romdisk.o
 
 # Optional path to a directory of resources to bundle within your ELF binary.
 # Its contents are accessible via the "/rd/" virtual directory at runtime.
-KOS_ROMDISK_DIR = assets
+KOS_ROMDISK_DIR = romdisk
 
 # Local libs
-LIBS = # -lSDL_ttf -lfreetype -lpng -lz -lbz2 -lSDL -lGL
+LIBS =
 
 # Main rule which forces our ELF binary to be built
 all: rm-elf $(TARGET)
