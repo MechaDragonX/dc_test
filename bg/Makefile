@@ -8,7 +8,7 @@
 TARGET = bg.elf
 
 # List all of your C or C++ files here, but change the extension to ".o"
-OBJS = bg.o # romdisk.o
+OBJS = bg.o romdisk.o
 
 # Optional path to a directory of resources to bundle within your ELF binary.
 # Its contents are accessible via the "/rd/" virtual directory at runtime.
@@ -25,7 +25,7 @@ include $(KOS_BASE)/Makefile.rules
 
 # Cleans the binary ELF file plus the intermediate .o files
 clean: rm-elf
-	-rm -f $(OBJS)
+	-rm -f $(OBJS) romdisk.img
 
 # Removes the binary ELF file
 rm-elf:
