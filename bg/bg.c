@@ -1,4 +1,5 @@
 #include <kos.h>
+#include <plx/font.h>
 #include <stdint.h>
 
 // Use default init settings
@@ -20,6 +21,14 @@ int main(int arc, char *argv[])
         .vbuf_doublebuf_disabled = 0
     };
     pvr_init(&params);
+
+    // Initialize controller in slot 1 and see if it exists
+    maple_device_t* controller = maple_enum_type(0, MAPLE_FUNC_CONTROLLER);
+    if(!controller)
+    {
+        arch_menu();
+        return -1;
+    }
 
     // Establish variables for the background image
     const float bgSizePixel = 1024.0f;
@@ -80,14 +89,6 @@ int main(int arc, char *argv[])
         // Bottom right
         { PVR_CMD_VERTEX_EOL, bgRenderImageWidth, bgRenderImageHeight, 1.0f, uMax, vMax, color, 0 }
     };
-
-    // Initialize controller in slot 1 and see if it exists
-    maple_device_t* controller = maple_enum_type(0, MAPLE_FUNC_CONTROLLER);
-    if(!controller)
-    {
-        arch_menu();
-        return -1;
-    }
 
     // Game loop
     int running = 1;
