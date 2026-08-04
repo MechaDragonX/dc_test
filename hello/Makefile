@@ -25,7 +25,7 @@ include $(KOS_BASE)/Makefile.rules
 
 # Cleans the binary ELF file plus the intermediate .o files
 clean: rm-elf
-	-rm -f $(OBJS)
+	-rm -f $(OBJS) romdisk.img
 
 # Removes the binary ELF file
 rm-elf:
